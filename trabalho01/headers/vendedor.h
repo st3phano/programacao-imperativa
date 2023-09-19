@@ -17,8 +17,8 @@ typedef struct
    int tamanho_vendedores;
 } Vetor_Vendedores;
 
-Vetor_Vendedores ler_arquivo_vendedores(const char *);
+Vetor_Vendedores ler_arquivo_vendedores(const char *caminho_arquivo_vendedores);
 void gravar_lista_vendedores(const Vetor_Vendedores vetor_vendedores, FILE *arquivo_gravar);
-void imprimir_lista_vendedores(const Vetor_Vendedores);
+void imprimir_lista_vendedores(const Vetor_Vendedores vetor_vendedores);
 
 #endif

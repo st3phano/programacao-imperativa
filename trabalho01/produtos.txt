@@ -1,0 +1,11 @@
+10
+35 25.00 Prato
+60 10.00 Garfo
+89 20.00 Faca
+12 15.40 Colher de sopa
+45 30.05 Copo 200ml
+78 40.00 Xícara de chá
+56 45.49 Panela de pressao
+34 49.99 Frigideira 30cm
+67 55.00 Chaleira elétrica
+23 60.45 Jarra de vidro

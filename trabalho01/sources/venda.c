@@ -46,6 +46,18 @@ Vetor_Vendas ler_arquivo_vendas(const char *caminho_arquivo_vendas)
    return vetor_vendas;
 }
 
+void gravar_log_vendas(const Vetor_Vendas vetor_vendas, FILE *arquivo_gravar)
+{
+   const Venda *vendas = vetor_vendas.vendas;
+   const int tamanho_vendas = vetor_vendas.tamanho_vendas;
+
+   fputs("Log de Vendas:\n", arquivo_gravar);
+   for (int i = 0; i < tamanho_vendas; ++i)
+   {
+      fprintf(arquivo_gravar, "[%d] %hu %hu %hu\n", i, vendas[i].codigo_vendedor, vendas[i].codigo_produto, vendas[i].unidades);
+   }
+}
+
 void imprimir_log_vendas(const Vetor_Vendas vetor_vendas)
 {
    const Venda *vendas = vetor_vendas.vendas;

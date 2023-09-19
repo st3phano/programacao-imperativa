@@ -53,6 +53,18 @@ Vetor_Vendedores ler_arquivo_vendedores(const char *caminho_arquivo_vendedores)
    return vetor_vendedores;
 }
 
+void gravar_lista_vendedores(const Vetor_Vendedores vetor_vendedores, FILE *arquivo_gravar)
+{
+   const Vendedor *vendedores = vetor_vendedores.vendedores;
+   const int tamanho_vendedores = vetor_vendedores.tamanho_vendedores;
+
+   fputs("Lista de Vendedores:\n", arquivo_gravar);
+   for (int i = 0; i < tamanho_vendedores; ++i)
+   {
+      fprintf(arquivo_gravar, "[%d] %hu %s\n", i, vendedores[i].codigo, vendedores[i].nome);
+   }
+}
+
 void imprimir_lista_vendedores(const Vetor_Vendedores vetor_vendedores)
 {
    const Vendedor *vendedores = vetor_vendedores.vendedores;

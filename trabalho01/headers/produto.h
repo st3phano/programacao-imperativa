@@ -1,6 +1,8 @@
 #ifndef PRODUTO_H
 #define PRODUTO_H
 
+#include <stdio.h>
+
 #define TAMANHO_DESCRICAO 64
 typedef struct
 {
@@ -17,6 +19,7 @@ typedef struct
 } Vetor_Produtos;
 
 Vetor_Produtos ler_arquivo_produtos(const char *);
+void gravar_catalogo_produtos(const Vetor_Produtos vetor_produtos, FILE *arquivo_gravar);
 void imprimir_catalogo_produtos(const Vetor_Produtos);
 double obter_preco_produto(const Vetor_Produtos, const unsigned short);
 

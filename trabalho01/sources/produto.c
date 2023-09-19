@@ -54,6 +54,18 @@ Vetor_Produtos ler_arquivo_produtos(const char *caminho_arquivo_produtos)
    return vetor_produtos;
 }
 
+void gravar_catalogo_produtos(const Vetor_Produtos vetor_produtos, FILE *arquivo_gravar)
+{
+   const Produto *produtos = vetor_produtos.produtos;
+   const int tamanho_produtos = vetor_produtos.tamanho_produtos;
+
+   fputs("Catálogo de Produtos:\n", arquivo_gravar);
+   for (int i = 0; i < tamanho_produtos; ++i)
+   {
+      fprintf(arquivo_gravar, "[%d] %hu %.2f %s\n", i, produtos[i].codigo, produtos[i].preco, produtos[i].descricao);
+   }
+}
+
 void imprimir_catalogo_produtos(const Vetor_Produtos vetor_produtos)
 {
    const Produto *produtos = vetor_produtos.produtos;

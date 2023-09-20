@@ -17,9 +17,7 @@ int main(void)
    const char *CAMINHO_ARQUIVO_VENDEDORES = "vendedores.txt";
    Vetor_Vendedores vetor_vendedores = ler_arquivo_vendedores(CAMINHO_ARQUIVO_VENDEDORES);
 
-   calcular_total_vendas_por_produto(vetor_produtos, vetor_vendas);
-   calcular_total_vendas_por_vendedor(vetor_vendedores, vetor_vendas, vetor_produtos);
-   double total_geral_vendas = calcular_total_geral_vendas(vetor_produtos);
+   double total_geral_vendas = calcular_total_vendas(vetor_vendas, vetor_produtos, vetor_vendedores);
 
    const char *CAMNHO_ARQUIVO_TOTAIS = "totais.txt";
    escrever_arquivo_totais(CAMNHO_ARQUIVO_TOTAIS, total_geral_vendas, vetor_produtos, vetor_vendas, vetor_vendedores);

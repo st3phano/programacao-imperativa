@@ -28,6 +28,52 @@ void escrever_arquivo_totais(const char *caminho_arquivo_totais, const double to
    fclose(arquivo_totais);
 }
 
+double calcular_total_vendas(const Vetor_Vendas vetor_vendas, Vetor_Produtos vetor_produtos, Vetor_Vendedores vetor_vendedores)
+{
+   const Venda *vendas = vetor_vendas.vendas;
+   const int tamanho_vendas = vetor_vendas.tamanho_vendas;
+
+   Produto *produtos = vetor_produtos.produtos;
+   const int tamanho_produtos = vetor_produtos.tamanho_produtos;
+   for (int i = 0; i < tamanho_produtos; ++i)
+   {
+      produtos[i].total_vendas = 0;
+   }
+
+   Vendedor *vendedores = vetor_vendedores.vendedores;
+   const int tamanho_vendedores = vetor_vendedores.tamanho_vendedores;
+   for (int i = 0; i < tamanho_vendedores; ++i)
+   {
+      vendedores[i].total_vendas = 0;
+   }
+
+   double total_geral_vendas = 0;
+
+   for (int i_vendas = 0; i_vendas < tamanho_vendas; ++i_vendas)
+   {
+      const Venda venda = vendas[i_vendas];
+
+      int i_produtos = 0;
+      while (produtos[i_produtos].codigo != venda.codigo_produto)
+      {
+         ++i_produtos;
+      }
+
+      int i_vendedores = 0;
+      while (vendedores[i_vendedores].codigo != venda.codigo_vendedor)
+      {
+         ++i_vendedores;
+      }
+
+      const double valor_venda = produtos[i_produtos].preco * venda.unidades;
+      produtos[i_produtos].total_vendas += valor_venda;
+      vendedores[i_vendedores].total_vendas += valor_venda;
+      total_geral_vendas += valor_venda;
+   }
+
+   return total_geral_vendas;
+}
+
 void calcular_total_vendas_por_produto(Vetor_Produtos vetor_produtos, const Vetor_Vendas vetor_vendas)
 {
    Produto *produtos = vetor_produtos.produtos;

@@ -92,12 +92,12 @@ double calcular_total_geral_vendas(const Vetor_Produtos vetor_produtos)
 
 void gravar_total_geral_vendas(const double total_geral_vendas, FILE *arquivo_gravar)
 {
-   fprintf(arquivo_gravar, "Total geral vendas: %.2f\n", total_geral_vendas);
+   fprintf(arquivo_gravar, "Total geral vendas: R$%.2f\n", total_geral_vendas);
 }
 
 void imprimir_total_geral_vendas(const double total_geral_vendas)
 {
-   printf("Total geral vendas: %.2f\n", total_geral_vendas);
+   printf("Total geral vendas: R$%.2f\n", total_geral_vendas);
 }
 
 void gravar_total_vendas_por_produto(const Vetor_Produtos vetor_produtos, FILE *arquivo_gravar)

@@ -1,4 +1,6 @@
-3
+5
 54 Marisa
 71 Elis
 88 Elza
+29 Luis
+34 Mario

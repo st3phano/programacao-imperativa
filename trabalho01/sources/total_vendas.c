@@ -54,15 +54,31 @@ double calcular_total_vendas(const Vetor_Vendas vetor_vendas, Vetor_Produtos vet
       const Venda venda = vendas[i_vendas];
 
       int i_produtos = 0;
-      while (produtos[i_produtos].codigo != venda.codigo_produto)
+      while (produtos[i_produtos].codigo != venda.codigo_produto && i_produtos < tamanho_produtos)
       {
          ++i_produtos;
       }
+      if (i_produtos == tamanho_produtos)
+      {
+         printf("Codigo do produto (%hu) invalido\n", venda.codigo_produto);
+         free(vetor_vendas.vendas);
+         free(vetor_produtos.produtos);
+         free(vetor_vendedores.vendedores);
+         exit(1);
+      }
 
       int i_vendedores = 0;
-      while (vendedores[i_vendedores].codigo != venda.codigo_vendedor)
+      while (vendedores[i_vendedores].codigo != venda.codigo_vendedor && i_vendedores < tamanho_vendedores)
       {
          ++i_vendedores;
+      }
+      if (i_vendedores == tamanho_vendedores)
+      {
+         printf("Codigo do vendedor (%hu) invalido\n", venda.codigo_vendedor);
+         free(vetor_vendas.vendas);
+         free(vetor_produtos.produtos);
+         free(vetor_vendedores.vendedores);
+         exit(1);
       }
 
       const double valor_venda = produtos[i_produtos].preco * venda.unidades;

@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
    }
 
    const char *CAMINHO_ARQUIVO_TEXTO = argv[1];
-   Pessoa *lista = alocar_lista_pessoas_de_arquivo_texto(CAMINHO_ARQUIVO_TEXTO);
+   Pessoa *lista = alocar_lista_ligada_pessoas_de_arquivo_texto(CAMINHO_ARQUIVO_TEXTO);
 
-   // imprimir_lista_pessoas(lista);
+   // imprimir_lista_ligada_pessoas(lista);
 
    const char *CAMINHO_ARQUIVO_BINARIO = argv[2];
-   gravar_lista_pessoas_no_arquivo_binario(lista, CAMINHO_ARQUIVO_BINARIO);
+   gravar_lista_ligada_pessoas_no_arquivo_binario(lista, CAMINHO_ARQUIVO_BINARIO);
 
-   desalocar_lista_pessoas(lista);
+   desalocar_lista_ligada_pessoas(lista);
    return EXIT_SUCCESS;
 }

@@ -1,134 +1,129 @@
 #include "pessoa.h"
-#include "arquivo.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-Pessoa *alocar_lista_ligada_pessoas_de_arquivo_texto(const char *caminho_arquivo_texto)
+bool inserir_pessoa_na_lista_ligada(Pessoa **inicio_lista, Pessoa *pessoa)
 {
-   FILE *arquivo_texto = abrir_arquivo(caminho_arquivo_texto, "r");
-   if (arquivo_texto == NULL)
+   if (inicio_lista == NULL || pessoa == NULL)
    {
-      exit(EXIT_FAILURE);
+      return false;
    }
 
-   Pessoa *lista = alocar_proxima_pessoa_de_arquivo_texto(arquivo_texto);
-   if (lista == NULL)
+   Pessoa *anterior = NULL;
+   Pessoa *atual = *inicio_lista;
+
+   bool fim_da_lista;
+   bool id_repetido;
+   bool encontrou_posicao;
+   while (!(fim_da_lista = (atual == NULL)) &&
+          !(id_repetido = (atual->id == pessoa->id)) &&
+          !(encontrou_posicao = (atual->id > pessoa->id)))
    {
-      printf("Falha ao iniciar uma lista ligada de 'Pessoa's a partir do arquivo '%s'!\n", caminho_arquivo_texto);
-      fclose(arquivo_texto);
-      exit(EXIT_FAILURE);
+      anterior = atual;
+      atual = atual->proxima;
    }
 
-   Pessoa *proxima_pessoa;
-   while ((proxima_pessoa = alocar_proxima_pessoa_de_arquivo_texto(arquivo_texto)) != NULL)
+   if (fim_da_lista)
    {
-      lista = adicionar_pessoa_na_lista_ligada(lista, proxima_pessoa);
+      anterior->proxima = pessoa;
    }
-   if (!feof(arquivo_texto))
+   else if (id_repetido)
    {
-      printf("O arquivo '%s' não foi lido completamente, verifique a formatação!\n", caminho_arquivo_texto);
+      return false;
    }
-   fclose(arquivo_texto);
+   else // (encontrou_posicao)
+   {
+      bool inserir_no_inicio = (anterior == NULL);
+      if (inserir_no_inicio)
+      {
+         *inicio_lista = pessoa;
+      }
+      else
+      {
+         anterior->proxima = pessoa;
+      }
+      pessoa->proxima = atual;
+   }
 
-   return lista;
+   return true;
 }
 
-Pessoa *alocar_proxima_pessoa_de_arquivo_texto(FILE *arquivo_texto)
+bool remover_pessoa_da_lista_ligada(Pessoa **inicio_lista, const int id_pessoa)
 {
-   Pessoa *pessoa = malloc(sizeof(*pessoa));
-   if (pessoa == NULL)
+   if (inicio_lista == NULL)
    {
-      puts("Falha ao alocar memória para 'Pessoa'!");
-      return NULL;
+      return false;
    }
 
-   char formato_linha[32];
-   sprintf(formato_linha, "%%d %%%d[^\r\n]", TAMANHO_NOME_PESSOA - 1);
-   const int RETORNO_CORRETO_SCANF = 2;
+   Pessoa *anterior = NULL;
+   Pessoa *atual = *inicio_lista;
 
-   int retorno_scanf = fscanf(arquivo_texto, formato_linha, &(pessoa->id), pessoa->nome);
-   if (retorno_scanf != RETORNO_CORRETO_SCANF)
+   bool fim_da_lista;
+   bool encontrou_pessoa;
+   while (!(fim_da_lista = (atual == NULL)) &&
+          !(encontrou_pessoa = (atual->id == id_pessoa)))
    {
-      free(pessoa);
-      return NULL;
+      anterior = atual;
+      atual = atual->proxima;
    }
 
-   pessoa->proxima = NULL;
+   if (fim_da_lista)
+   {
+      return false;
+   }
+
+   bool remover_do_inicio = (anterior == NULL);
+   if (remover_do_inicio)
+   {
+      *inicio_lista = atual->proxima;
+   }
+   else
+   {
+      anterior->proxima = atual->proxima;
+   }
+   free(atual);
+   atual = NULL;
+
+   return true;
+}
+
+Pessoa *encontrar_pessoa_na_lista_ligada(Pessoa *inicio_lista, const int id_pessoa)
+{
+   Pessoa *pessoa = inicio_lista;
+
+   while ((pessoa != NULL) &&
+          (pessoa->id != id_pessoa))
+   {
+      pessoa = pessoa->proxima;
+   }
 
    return pessoa;
 }
 
-Pessoa *adicionar_pessoa_na_lista_ligada(Pessoa *lista, Pessoa *pessoa)
+void desalocar_lista_ligada_pessoas(Pessoa *inicio_lista)
 {
-   if (lista == NULL || pessoa == NULL)
+   if (inicio_lista == NULL)
    {
-      return lista;
+      return;
    }
-
-   // pessoa inserida no início da lista
-   if (lista->id > pessoa->id)
-   {
-      pessoa->proxima = lista;
-      return pessoa;
-   }
-
-   // procura a posição para inserir pessoa na lista
-   Pessoa *penultimo = lista;
-   Pessoa *ultimo = lista->proxima;
-   while (ultimo != NULL && ultimo->id < pessoa->id)
-   {
-      penultimo = ultimo;
-      ultimo = ultimo->proxima;
-   }
-
-   if (ultimo == NULL)
-   {
-      ultimo = pessoa;
-   }
-   else
-   {
-      penultimo->proxima = pessoa;
-      pessoa->proxima = ultimo;
-   }
-
-   return lista;
+   desalocar_lista_ligada_pessoas(inicio_lista->proxima);
+   free(inicio_lista);
+   inicio_lista = NULL;
 }
 
-void gravar_lista_ligada_pessoas_no_arquivo_binario(Pessoa *lista, const char *caminho_arquivo_binario)
+void imprimir_lista_ligada_pessoas(const Pessoa *inicio_lista)
 {
-   FILE *arquivo_binario = abrir_arquivo(caminho_arquivo_binario, "wb");
-   if (arquivo_binario == NULL)
+   puts("- Lista ligada de pessoas:");
+   while (inicio_lista != NULL)
    {
-      desalocar_lista_ligada_pessoas(lista);
-      exit(EXIT_FAILURE);
+      imprimir_pessoa(inicio_lista);
+      putchar('\n');
+      inicio_lista = inicio_lista->proxima;
    }
-
-   while (lista != NULL)
-   {
-      fwrite(lista, sizeof(*lista), 1, arquivo_binario);
-      lista = lista->proxima;
-   }
-   fclose(arquivo_binario);
 }
 
-void desalocar_lista_ligada_pessoas(Pessoa *pessoas)
+void imprimir_pessoa(const Pessoa *pessoa)
 {
-   do
-   {
-      Pessoa *pessoa_seguinte = pessoas->proxima;
-      free(pessoas);
-      pessoas = pessoa_seguinte;
-   } while (pessoas != NULL);
-}
-
-void imprimir_lista_ligada_pessoas(const Pessoa *lista)
-{
-   puts("Lista de pessoas:");
-   while (lista != NULL)
-   {
-      printf("ID: %d Nome: %s\n", lista->id, lista->nome);
-      lista = lista->proxima;
-   }
+   printf("ID: %*d   Nome: %s", MAX_DIGITOS_ID_PESSOA, pessoa->id, pessoa->nome);
 }

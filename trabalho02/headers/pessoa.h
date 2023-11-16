@@ -1,37 +1,43 @@
 #ifndef PESSOA_H
 #define PESSOA_H
 
+#include <stdbool.h>
 #include <stdio.h>
 
-#define TAMANHO_NOME_PESSOA 128
+#define MAX_DIGITOS_ID_PESSOA 9
+#define TAMANHO_BUFFER_NOME_PESSOA 64
 typedef struct Pessoa Pessoa;
 struct Pessoa
 {
    int id;
-   char nome[TAMANHO_NOME_PESSOA];
+   char nome[TAMANHO_BUFFER_NOME_PESSOA];
    Pessoa *proxima;
 };
 
 /**
- * Constroi uma lista ligada ascendente em relação ao ID da 'Pessoa' no heap,
- * encerra a leitura do arquivo texto se encontrar uma linha mal formatada
+ * @brief
+ * Insere na primeira posição com 'id' maior que 'id' de pessoa
+ * @param inicio_lista
+ * Endereço do ponteiro para o início da lista
+ * @returns
+ * 'true' para inserção bem sucedida, 'false' para 'id' repetido
  */
-Pessoa *alocar_lista_ligada_pessoas_de_arquivo_texto(const char *caminho_arquivo_texto);
+bool inserir_pessoa_na_lista_ligada(Pessoa **inicio_lista, Pessoa *pessoa);
 
 /**
- * Controi uma 'Pessoa' no heap a partir dos dados da próxima linha de um arquivo texto
+ * @param inicio_lista
+ * Endereço do ponteiro para o início da lista
+ * @returns
+ * 'true' para remoção bem sucedida, 'false' para 'id' não encontrado
  */
-Pessoa *alocar_proxima_pessoa_de_arquivo_texto(FILE *arquivo_texto);
+bool remover_pessoa_da_lista_ligada(Pessoa **inicio_lista, const int id_pessoa);
 
-/**
- * Adiciona uma 'Pessoa' na lista ligada mantendo-a crescente em relação ao ID
- */
-Pessoa *adicionar_pessoa_na_lista_ligada(Pessoa *lista, Pessoa *pessoa);
+Pessoa *encontrar_pessoa_na_lista_ligada(Pessoa *inicio_lista, const int id_pessoa);
 
-void gravar_lista_ligada_pessoas_no_arquivo_binario(Pessoa *lista, const char *caminho_arquivo_binario);
-
-void desalocar_lista_ligada_pessoas(Pessoa *pessoas);
+void desalocar_lista_ligada_pessoas(Pessoa *inicio_lista);
 
 void imprimir_lista_ligada_pessoas(const Pessoa *lista);
+
+void imprimir_pessoa(const Pessoa *pessoa);
 
 #endif

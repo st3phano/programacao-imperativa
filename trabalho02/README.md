@@ -1,10 +1,26 @@
-Para compilar o GERADOR... <br>
+Para compilar o GERADOR...
+<br>
+make gerador.exe
+<br>
+OU
+<br>
+clang -Wno-deprecated-declarations -Wall -Wextra -Werror -std=c99 -Iheaders sources/*.c gerador.c -o gerador.exe
+<br>
 
-com clang: <br>
-clang -Iheaders sources/*.c gerador.c -o gerador.exe
+Para compilar o EXPORTADOR...
+<br>
+make exportador.exe
+<br>
+OU
+<br>
+clang -Wno-deprecated-declarations -Wall -Wextra -Werror -std=c99 -Iheaders sources/*.c exportador.c -o exportador.exe
+<br>
 
-com clang-cl: <br>
-clang-cl -Wno-deprecated-declarations -Iheaders sources/*.c gerador.c -o gerador.exe
-
-com gcc: <br>
-gcc -Iheaders sources/*.c gerador.c -o gerador.exe
+Para compilar o EDITOR...
+<br>
+make editor.exe
+<br>
+OU
+<br>
+clang -Wno-deprecated-declarations  -Wall -Wextra -Werror -std=c99 -Iheaders sources/*.c editor.c -o editor.exe
+<br>

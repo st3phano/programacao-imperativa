@@ -51,6 +51,6 @@ void descartar_leitura_ate_espaco_em_branco(FILE *arquivo);
 bool converter_arquivo_tipo1_em_tipo2(const char *caminho_arquivo1, const TIPO_ARQUIVO tipo_arquivo1,
                                       const char *caminho_arquivo2, const TIPO_ARQUIVO tipo_arquivo2);
 
-bool gravar_lista_ligada_pessoas_no_arquivo(Pessoa *inicio_lista, const char *caminho_arquivo, const TIPO_ARQUIVO tipo_arquivo);
+bool gravar_lista_ligada_pessoas_em_arquivo(Pessoa *inicio_lista, const char *caminho_arquivo, const TIPO_ARQUIVO tipo_arquivo);
 
 #endif

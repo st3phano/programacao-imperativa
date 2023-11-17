@@ -79,7 +79,7 @@ void executar_opcao_menu_exibir(Pessoa *inicio_lista_ligada)
 
 void executar_opcao_menu_gravar(Pessoa *inicio_lista_ligada, const char *caminho_arquivo_gravar)
 {
-   bool gravou = gravar_lista_ligada_pessoas_no_arquivo(inicio_lista_ligada, caminho_arquivo_gravar, BINARIO);
+   bool gravou = gravar_lista_ligada_pessoas_em_arquivo(inicio_lista_ligada, caminho_arquivo_gravar, BINARIO);
 
    if (gravou)
    {

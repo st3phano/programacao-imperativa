@@ -71,10 +71,11 @@ Pessoa *alocar_pessoa_de_arquivo(FILE *arquivo, const TIPO_ARQUIVO tipo_arquivo)
          return NULL;
       }
    }
-   else // (tipo_arquivo == TEXTO)
+   else // if (tipo_arquivo == TEXTO)
    {
       pessoa->id = ler_inteiro_de_arquivo_texto(arquivo, MAX_DIGITOS_ID_PESSOA);
-      if (pessoa->id == INT_MIN)
+      bool leu_inteiro = (pessoa->id != INT_MIN);
+      if (!leu_inteiro)
       {
          free(pessoa);
          pessoa = NULL;
@@ -134,14 +135,14 @@ bool converter_arquivo_tipo1_em_tipo2(const char *caminho_arquivo1, const TIPO_A
    Pessoa *inicio_lista = alocar_lista_ligada_pessoas_de_arquivo(caminho_arquivo1, tipo_arquivo1);
    // imprimir_lista_ligada_pessoas(inicio_lista);
 
-   bool gravou = gravar_lista_ligada_pessoas_no_arquivo(inicio_lista, caminho_arquivo2, tipo_arquivo2);
+   bool gravou = gravar_lista_ligada_pessoas_em_arquivo(inicio_lista, caminho_arquivo2, tipo_arquivo2);
 
    desalocar_lista_ligada_pessoas(inicio_lista);
 
    return gravou;
 }
 
-bool gravar_lista_ligada_pessoas_no_arquivo(Pessoa *inicio_lista, const char *caminho_arquivo, const TIPO_ARQUIVO tipo_arquivo)
+bool gravar_lista_ligada_pessoas_em_arquivo(Pessoa *inicio_lista, const char *caminho_arquivo, const TIPO_ARQUIVO tipo_arquivo)
 {
    FILE *arquivo = abrir_arquivo(caminho_arquivo,
                                  (tipo_arquivo == BINARIO) ? "wb" : "w");
@@ -154,10 +155,10 @@ bool gravar_lista_ligada_pessoas_no_arquivo(Pessoa *inicio_lista, const char *ca
    bool gravacao_bem_sucedida = true;
    if (tipo_arquivo == BINARIO)
    {
-      const size_t NUMERO_ELEMENTOS = 1;
+      const size_t QUANTIDADE_ELEMENTOS_FWRITE = 1;
       while (inicio_lista != NULL)
       {
-         if (fwrite(inicio_lista, sizeof(*inicio_lista), NUMERO_ELEMENTOS, arquivo) != NUMERO_ELEMENTOS)
+         if (fwrite(inicio_lista, sizeof(*inicio_lista), QUANTIDADE_ELEMENTOS_FWRITE, arquivo) != QUANTIDADE_ELEMENTOS_FWRITE)
          {
             gravacao_bem_sucedida = false;
          }

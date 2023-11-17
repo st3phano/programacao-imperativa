@@ -24,15 +24,11 @@ bool inserir_pessoa_na_lista_ligada(Pessoa **inicio_lista, Pessoa *pessoa)
       atual = atual->proxima;
    }
 
-   if (fim_da_lista)
-   {
-      anterior->proxima = pessoa;
-   }
-   else if (id_repetido)
+   if (id_repetido)
    {
       return false;
    }
-   else // (encontrou_posicao)
+   else // if (encontrou_posicao)
    {
       bool inserir_no_inicio = (anterior == NULL);
       if (inserir_no_inicio)

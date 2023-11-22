@@ -36,7 +36,7 @@ Pessoa *encontrar_pessoa_na_lista_ligada(Pessoa *inicio_lista, const int id_pess
 
 void desalocar_lista_ligada_pessoas(Pessoa *inicio_lista);
 
-void imprimir_lista_ligada_pessoas(const Pessoa *lista);
+void imprimir_lista_ligada_pessoas(const Pessoa *inicio_lista);
 
 void imprimir_pessoa(const Pessoa *pessoa);
 
